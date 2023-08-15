@@ -3,6 +3,7 @@ import { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { inProgressData, readyData } from "../../data";
 import TaskCard from "./TaskCard";
+import Header from "../layout/Header";
 
 // fake data generator
 
@@ -30,24 +31,24 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
   return result;
 };
-const grid = 8;
 
 const columsData = {
-  backlog: {
-    title: "Backlog",
+  ready: {
+    title: "Ready",
     items: [],
     color: "border-gray-400",
-  },
-  pending: {
-    title: "Pending",
-    items: [],
-    color: "border-sky-400",
   },
   inProgress: {
     title: "In Progress",
     items: inProgressData,
     color: "border-yellow-400",
   },
+  testing: {
+    title: "Testing",
+    items: [],
+    color: "border-sky-400",
+  },
+
   done: {
     title: "Done",
     items: readyData,
@@ -90,6 +91,7 @@ const Board = () => {
 
   return (
     <div>
+      <Header />
       <div className="flex w-[90vw] gap-4 bg-gray-100">
         <DragDropContext onDragEnd={onDragEnd}>
           {Object.entries(state).map(([colId, el], ind) => (
