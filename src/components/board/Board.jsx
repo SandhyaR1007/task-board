@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { inProgressData, readyData } from "../../data";
 import TaskCard from "./TaskCard";
 import Header from "../layout/Header";
+import { useTaskContext } from "../../context/TaskContext";
 
 // fake data generator
 
@@ -32,32 +32,12 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   return result;
 };
 
-const columsData = {
-  ready: {
-    title: "Ready",
-    items: [],
-    color: "border-gray-400",
-  },
-  inProgress: {
-    title: "In Progress",
-    items: inProgressData,
-    color: "border-yellow-400",
-  },
-  testing: {
-    title: "Testing",
-    items: [],
-    color: "border-sky-400",
-  },
-
-  done: {
-    title: "Done",
-    items: readyData,
-    color: "border-green-400",
-  },
-};
 const Board = () => {
-  const [state, setState] = useState(columsData);
-
+  const { boardColumns, loading, tasksList } = useTaskContext();
+  const [state, setState] = useState(boardColumns);
+  useEffect(() => {
+    setState(boardColumns);
+  }, [tasksList]);
   function onDragEnd(result) {
     const { source, destination } = result;
 
@@ -92,31 +72,35 @@ const Board = () => {
   return (
     <div>
       <Header />
-      <div className="flex w-[90vw] gap-4 bg-gray-100">
-        <DragDropContext onDragEnd={onDragEnd}>
-          {Object.entries(state).map(([colId, el], ind) => (
-            <div key={colId} className="w-1/4">
-              <h1
-                className={`text-sm text-neutral-600 uppercase font-semibold border-b-2 p-1 ${el.color}`}
-              >
-                {el.title}
-              </h1>
-              <Droppable droppableId={`${colId}`}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className="  flex flex-col gap-2 m-3"
-                  >
-                    {el.items.map((task, index) => (
-                      <TaskCard task={task} key={task.id} index={index} />
-                    ))}
-                  </div>
-                )}
-              </Droppable>
-            </div>
-          ))}
-        </DragDropContext>
+      <div className="flex w-[90vw] gap-4 bg-gray-100 flex-wrap md:flex-nowrap">
+        {loading ? (
+          <h1>Loading....</h1>
+        ) : (
+          <DragDropContext onDragEnd={onDragEnd}>
+            {Object.entries(state).map(([colId, el], ind) => (
+              <div key={colId} className="sm:w-1/3 md:w-1/4">
+                <h1
+                  className={`text-sm text-neutral-600 uppercase font-semibold border-b-2 p-1 ${el.color}`}
+                >
+                  {el.title}
+                </h1>
+                <Droppable droppableId={`${colId}`}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className="  flex flex-col gap-2 m-3"
+                    >
+                      {el.items.map((task, index) => (
+                        <TaskCard task={task} key={task.id} index={index} />
+                      ))}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
+            ))}
+          </DragDropContext>
+        )}
       </div>
     </div>
   );
