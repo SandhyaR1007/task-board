@@ -29,7 +29,7 @@ const TaskCard = ({ task, index }) => {
               <span className="text-xs">Assignee:</span>{" "}
               <span className="font-semibold text-xs">{task?.assignee}</span>
             </div>
-            <span className="text-xs px-3 py-0.5 rounded-full bg-gray-200 text-gray-500">
+            <span className="text-[0.6rem] px-2 py-0.5 rounded-full bg-gray-200 text-gray-500">
               {task?.startDate}
             </span>
           </section>
