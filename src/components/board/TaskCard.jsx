@@ -1,3 +1,4 @@
+import moment from "moment/moment";
 import { Draggable } from "react-beautiful-dnd";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import { BiErrorCircle } from "react-icons/bi";
@@ -30,7 +31,7 @@ const TaskCard = ({ task, index }) => {
               <span className="font-semibold text-xs">{task?.assignee}</span>
             </div>
             <span className="text-[0.6rem] px-2 py-0.5 rounded-full bg-gray-200 text-gray-500">
-              {task?.startDate}
+              {moment(task?.startDate).format("MMM Do YY")}
             </span>
           </section>
 

@@ -14,7 +14,7 @@ const Header = () => {
         </section>
 
         <span className="bg-emerald-400 text-[0.55rem] px-2 py-0.5 text-white rounded-3xl self-start mt-2">
-          #BKSP
+          #BSKP
         </span>
       </section>
     </header>

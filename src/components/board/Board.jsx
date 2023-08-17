@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import TaskCard from "./TaskCard";
 import Header from "../layout/Header";
 import { useTaskContext } from "../../context/TaskContext";
 import Search from "./Search";
+import Loader from "../layout/Loader";
+import {
+  FilterByEndDate,
+  FilterBySeverity,
+  FilterByStartDate,
+} from "./FIlters";
 
 // fake data generator
 
@@ -43,6 +50,7 @@ const Board = () => {
     setTasksData,
     tasksData,
     searchQuery,
+    filters,
   } = useTaskContext();
   const [state, setState] = useState({});
   useEffect(() => {
@@ -50,11 +58,10 @@ const Board = () => {
     return () => {
       setState({});
     };
-  }, [tasksList, searchQuery]);
+  }, [tasksList, searchQuery, filters]);
   function onDragEnd(result) {
     const { source, destination } = result;
 
-    // dropped outside the list
     if (!destination) {
       return;
     }
@@ -92,11 +99,14 @@ const Board = () => {
 
       <div className=" w-[90vw]  bg-gray-100 ">
         {loading ? (
-          <h1>Loading....</h1>
+          <Loader loading={loading} />
         ) : (
-          <div className="flex flex-col w-full gap-1 p-2">
-            <section>
+          <div className="flex flex-col w-full gap-1 p-2 min-h-screen">
+            <section className="flex gap-2 py-3">
               <Search />
+              <FilterBySeverity />
+              <FilterByStartDate />
+              <FilterByEndDate />
             </section>
             <div className="flex flex-wrap md:flex-nowrap gap-4">
               <DragDropContext onDragEnd={onDragEnd} className="w-full ">
@@ -120,6 +130,10 @@ const Board = () => {
                           {el.items.map((task, index) => (
                             <TaskCard task={task} key={task.id} index={index} />
                           ))}
+                          <div className="shadow-sm rounded-sm py-4 px-5 text-sm font-semibold bg-white text-emerald-500 flex  items-center  gap-2 cursor-not-allowed transition">
+                            <AiOutlinePlus />
+                            <span> Add Task</span>
+                          </div>
                         </div>
                       )}
                     </Droppable>
