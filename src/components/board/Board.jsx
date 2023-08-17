@@ -8,10 +8,11 @@ import { useTaskContext } from "../../context/TaskContext";
 import Search from "./Search";
 import Loader from "../layout/Loader";
 import {
+  ClearFilters,
   FilterByEndDate,
   FilterBySeverity,
   FilterByStartDate,
-} from "./FIlters";
+} from "./Filters";
 
 // fake data generator
 
@@ -94,21 +95,22 @@ const Board = () => {
   }
 
   return (
-    <div>
+    <div className="md:[80vw] lg:w-[90vw] mx-auto">
       <Header />
 
-      <div className=" w-[90vw]  bg-gray-100 ">
+      <div className=" w-full  bg-gray-100 mx-5">
         {loading ? (
           <Loader loading={loading} />
         ) : (
           <div className="flex flex-col w-full gap-1 p-2 min-h-screen">
-            <section className="flex gap-2 py-3">
+            <section className="flex gap-2 py-3 flex-wrap">
               <Search />
               <FilterBySeverity />
               <FilterByStartDate />
               <FilterByEndDate />
+              <ClearFilters />
             </section>
-            <div className="flex flex-wrap md:flex-nowrap gap-4">
+            <div className="flex flex-wrap lg:flex-nowrap gap-4 w-full">
               <DragDropContext onDragEnd={onDragEnd} className="w-full ">
                 {Object.entries(state).map(([colId, el], ind) => (
                   <div key={colId} className="sm:w-1/3 md:w-1/4">

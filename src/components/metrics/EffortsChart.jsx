@@ -64,7 +64,7 @@ const options = {
 export const EffortsChart = () => {
   const { tasksData } = useTaskContext();
   return (
-    <div className=" h-96  p-2 w-[90%]">
+    <div className=" h-96  p-2 w-[90%] mx-auto">
       <Doughnut
         data={getEffortSpent(tasksData)}
         options={options}

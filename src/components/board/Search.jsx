@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useTaskContext } from "../../context/TaskContext";
 
 const Search = () => {
-  const { updateSearchQuery } = useTaskContext();
-  const [searchText, setSearchText] = useState("");
+  const { updateSearchQuery, searchText, setSearchText } = useTaskContext();
 
   useEffect(() => {
     let id = setTimeout(() => {

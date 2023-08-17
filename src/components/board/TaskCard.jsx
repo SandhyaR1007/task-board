@@ -25,7 +25,7 @@ const TaskCard = ({ task, index }) => {
           <section>
             <p className="text-xs text-gray-400">{task?.summary}</p>
           </section>
-          <section className="flex gap-4 items-end">
+          <section className="flex gap-3 items-end">
             <div>
               <span className="text-xs">Assignee:</span>{" "}
               <span className="font-semibold text-xs">{task?.assignee}</span>

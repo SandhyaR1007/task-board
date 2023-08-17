@@ -59,4 +59,15 @@ const FilterByEndDate = () => {
   );
 };
 
-export { FilterBySeverity, FilterByStartDate, FilterByEndDate };
+const ClearFilters = () => {
+  const { clearFilters } = useTaskContext();
+  return (
+    <button
+      onClick={clearFilters}
+      className="px-2 py-0.5 rounded-md text-white bg-emerald-500 text-[0.65rem]"
+    >
+      Clear Filters
+    </button>
+  );
+};
+export { FilterBySeverity, FilterByStartDate, FilterByEndDate, ClearFilters };

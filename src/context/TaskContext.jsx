@@ -16,6 +16,7 @@ export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
   const [loading, setLoading] = useState(false);
   const [tasksData, setTasksData] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const { searchTasks } = useSearch();
   const { filterBySeverity, filterByStartDate, filterByEndDate } = useFilter();
   useEffect(() => {
@@ -58,6 +59,12 @@ export const TaskProvider = ({ children }) => {
       type: actionTypes.updateFilters,
       payload: { filterType, filterValue },
     });
+  };
+  const clearFilters = () => {
+    dispatch({
+      type: actionTypes.clearFilters,
+    });
+    setSearchText("");
   };
   let filteredData = searchTasks(state.searchQuery, tasksData);
   filteredData = filterBySeverity(state.filters.severity, filteredData);
@@ -109,12 +116,15 @@ export const TaskProvider = ({ children }) => {
         searchQuery: state.searchQuery,
         filters: state.filters,
         tasksData,
+        searchText,
+        setSearchText,
         setTasksData,
         boardColumns,
         loading,
         updateTasksList,
         updateSearchQuery,
         updateFilters,
+        clearFilters,
       }}
     >
       {children}

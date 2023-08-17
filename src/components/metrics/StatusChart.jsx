@@ -153,7 +153,7 @@ export const StatusChart = () => {
   const { tasksData } = useTaskContext();
 
   return (
-    <div className=" h-96  p-2 w-[90%] ">
+    <div className=" h-96  p-2 w-[90%] mx-auto">
       <Bar
         options={options}
         data={getData(tasksData)}

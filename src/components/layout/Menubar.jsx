@@ -3,7 +3,7 @@ import { BsBarChartSteps } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 const Menubar = () => {
   return (
-    <div className="bg-gray-800 text-white  px-2 py-8 w-16">
+    <div className="bg-gray-800 text-white  px-2 py-8 w-16 fixed top-0 bottom-0">
       <ul className="flex flex-col gap-5 items-center">
         <li>
           <NavLink
