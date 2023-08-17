@@ -2,7 +2,7 @@
 
 This project is a Kanban board application built using React, `react-beautiful-dnd`, `antd`, `tailwind CSS`, and `react context` for state management. The application allows users to create, manage, and organize tasks using a drag-and-drop interface.
 
-![Kanban Board Preview](./screenshot.png)
+![Kanban Board Preview](./khanban.png)
 
 ## Features
 
