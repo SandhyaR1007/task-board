@@ -14,13 +14,13 @@ const Search = () => {
     };
   }, [searchText]);
   return (
-    <label>
+    <label className="w-1/4 ">
       <input
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         type="search"
-        className="px-2 py-1 rounded-md border shadow-sm text-sm w-1/4 outline-none"
-        placeholder="Search for task, assignee..."
+        className="px-2 py-1 rounded-md border shadow-sm text-sm w-full  outline-none"
+        placeholder="Search for task, assignee, type..."
       />
     </label>
   );
