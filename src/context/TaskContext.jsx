@@ -1,6 +1,5 @@
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useReducer,
@@ -9,6 +8,7 @@ import {
 import { actionTypes, initialState, taskReducer } from "./taskReducer";
 import { getTasksService } from "../utils/services";
 import { useSearch } from "../utils/hooks/useSearch";
+import { useFilter } from "../utils/hooks/useFilter";
 
 const TaskContext = createContext();
 
@@ -17,6 +17,7 @@ export const TaskProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [tasksData, setTasksData] = useState([]);
   const { searchTasks } = useSearch();
+  const { filterBySeverity, filterByStartDate, filterByEndDate } = useFilter();
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -45,33 +46,39 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
-  const updateSearchQuery = useCallback(
-    (searchText) => {
-      dispatch({
-        type: actionTypes.updateSearchQuery,
-        payload: searchText,
-      });
-    },
-    [state]
-  );
+  const updateSearchQuery = (searchText) => {
+    dispatch({
+      type: actionTypes.updateSearchQuery,
+      payload: searchText,
+    });
+  };
 
-  const { readyTasks, inProgressTasks, testingTasks, doneTasks } = searchTasks(
-    state.searchQuery,
-    tasksData
-  )?.reduce(
-    (acc, curr) => {
-      if (curr?.status === "Ready") {
-        return { ...acc, readyTasks: [...acc.readyTasks, curr] };
-      } else if (curr?.status === "In Progress") {
-        return { ...acc, inProgressTasks: [...acc.inProgressTasks, curr] };
-      } else if (curr?.status === "Testing") {
-        return { ...acc, testingTasks: [...acc.testingTasks, curr] };
-      } else if (curr?.status === "Done") {
-        return { ...acc, doneTasks: [...acc.doneTasks, curr] };
-      }
-    },
-    { readyTasks: [], inProgressTasks: [], testingTasks: [], doneTasks: [] }
-  );
+  const updateFilters = (filterType, filterValue) => {
+    dispatch({
+      type: actionTypes.updateFilters,
+      payload: { filterType, filterValue },
+    });
+  };
+  let filteredData = searchTasks(state.searchQuery, tasksData);
+  filteredData = filterBySeverity(state.filters.severity, filteredData);
+  filteredData = filterByStartDate(state.filters.startDate, filteredData);
+  filteredData = filterByEndDate(state.filters.endDate, filteredData);
+
+  const { readyTasks, inProgressTasks, testingTasks, doneTasks } =
+    filteredData?.reduce(
+      (acc, curr) => {
+        if (curr?.status === "Ready") {
+          return { ...acc, readyTasks: [...acc.readyTasks, curr] };
+        } else if (curr?.status === "In Progress") {
+          return { ...acc, inProgressTasks: [...acc.inProgressTasks, curr] };
+        } else if (curr?.status === "Testing") {
+          return { ...acc, testingTasks: [...acc.testingTasks, curr] };
+        } else if (curr?.status === "Done") {
+          return { ...acc, doneTasks: [...acc.doneTasks, curr] };
+        }
+      },
+      { readyTasks: [], inProgressTasks: [], testingTasks: [], doneTasks: [] }
+    );
   const boardColumns = {
     Ready: {
       title: "Ready",
@@ -100,12 +107,14 @@ export const TaskProvider = ({ children }) => {
       value={{
         tasksList: state.tasksList,
         searchQuery: state.searchQuery,
+        filters: state.filters,
         tasksData,
         setTasksData,
         boardColumns,
         loading,
         updateTasksList,
         updateSearchQuery,
+        updateFilters,
       }}
     >
       {children}
