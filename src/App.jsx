@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Board, Menubar } from "./components";
+import { Analytics, Board, Menubar } from "./components";
 
 const App = () => {
   return (
@@ -8,6 +8,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Board />} />
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </div>
   );

@@ -15,7 +15,7 @@ const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
   const [loading, setLoading] = useState(false);
-  const [taskDataCopy, setTaskDataCopy] = useState([]);
+  const [tasksData, setTasksData] = useState([]);
   const { searchTasks } = useSearch();
   useEffect(() => {
     (async () => {
@@ -28,7 +28,7 @@ export const TaskProvider = ({ children }) => {
             type: actionTypes.updateTasks,
             payload: response?.data ?? [],
           });
-          setTaskDataCopy(response?.data ?? []);
+          setTasksData(response?.data ?? []);
         }
       } catch (err) {
         console.log({ err });
@@ -57,7 +57,7 @@ export const TaskProvider = ({ children }) => {
 
   const { readyTasks, inProgressTasks, testingTasks, doneTasks } = searchTasks(
     state.searchQuery,
-    taskDataCopy
+    tasksData
   )?.reduce(
     (acc, curr) => {
       if (curr?.status === "Ready") {
@@ -100,8 +100,8 @@ export const TaskProvider = ({ children }) => {
       value={{
         tasksList: state.tasksList,
         searchQuery: state.searchQuery,
-        taskDataCopy,
-        setTaskDataCopy,
+        tasksData,
+        setTasksData,
         boardColumns,
         loading,
         updateTasksList,

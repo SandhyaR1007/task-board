@@ -40,8 +40,8 @@ const Board = () => {
     boardColumns,
     loading,
     tasksList,
-    setTaskDataCopy,
-    taskDataCopy,
+    setTasksData,
+    tasksData,
     searchQuery,
   } = useTaskContext();
   const [state, setState] = useState({});
@@ -80,8 +80,8 @@ const Board = () => {
 
       // setState(newState);
 
-      setTaskDataCopy(
-        taskDataCopy.map((data) => (data.id === removed.id ? removed : data))
+      setTasksData(
+        tasksData.map((data) => (data.id === removed.id ? removed : data))
       );
     }
   }
