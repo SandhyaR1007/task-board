@@ -24,7 +24,8 @@ export const TaskProvider = ({ children }) => {
       setLoading(true);
       try {
         const response = await getTasksService();
-        console.log({ response });
+        console.log(response.data);
+
         if (response?.status === 200) {
           dispatch({
             type: actionTypes.updateTasks,
